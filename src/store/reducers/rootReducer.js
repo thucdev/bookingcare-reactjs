@@ -24,6 +24,9 @@ export default (history) =>
     combineReducers({
         router: connectRouter(history),
         user: persistReducer(userPersistConfig, userReducer),
+<<<<<<< HEAD
         user: userReducer,
+=======
+>>>>>>> react-server
         app: appReducer,
     })

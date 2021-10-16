@@ -140,7 +140,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         navigate: (path) => dispatch(push(path)),
+<<<<<<< HEAD
         userLoginFail: () => dispatch(actions.userLoginFail()),
+=======
+        // userLoginFail: () => dispatch(actions.userLoginFail()),
+>>>>>>> react-server
         userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo)),
     }
 }
