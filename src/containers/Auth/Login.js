@@ -6,6 +6,7 @@ import * as actions from '../../store/actions'
 import './Login.scss'
 import {FormattedMessage} from 'react-intl'
 import 'bootstrap/dist/css/bootstrap.css'
+import {handleLoginApi} from '../../services/userService.'
 
 class Login extends Component {
     constructor(props) {
@@ -14,6 +15,7 @@ class Login extends Component {
             username: '',
             password: '',
             isShowPassword: false,
+            errMessage: '',
         }
     }
 
@@ -29,9 +31,31 @@ class Login extends Component {
         })
     }
 
-    handleLogin = () => {
+    handleLogin = async () => {
         console.log('username: ', this.state.username, 'password: ', this.state.password)
         console.log('all state: ', this.state)
+        this.setState({
+            errMessage: '',
+        })
+        try {
+            let data = await handleLoginApi(this.state.username, this.state.password)
+            if (data && data.errCode !== 0) {
+                this.setState({
+                    errMessage: data.message,
+                })
+            }
+            if (data && data.errCode === 0) {
+                console.log('login succeed')
+            }
+        } catch (error) {
+            if (error.response) {
+                if (error.response.data) {
+                    this.setState({
+                        errMessage: error.response.data.message,
+                    })
+                }
+            }
+        }
     }
 
     handleShowHidePassword = () => {
@@ -80,6 +104,9 @@ class Login extends Component {
                                     ></i>
                                 </span>
                             </div>
+                        </div>
+                        <div className="col-12" style={{color: 'red'}}>
+                            {this.state.errMessage}
                         </div>
                         <div className="col-12 mt-4">
                             <button
